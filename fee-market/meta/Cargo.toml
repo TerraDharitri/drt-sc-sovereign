@@ -1,0 +1,16 @@
+[package]
+name = "fee-market-meta"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[dependencies.fee-market]
+path = ".."
+
+[dependencies.dharitri-sc-meta-lib]       
+version = "=1.15.0"
+default-features = false
+
+# [dependencies.dharitri-sc-meta-lib]
+# path = "/home/dugong/Documents/my_works-main/rs-sdks/drt-rs-sdk-0.54.0/framework/meta-lib"
+# default-features = false

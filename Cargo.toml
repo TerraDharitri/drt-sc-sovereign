@@ -1,0 +1,14 @@
+[workspace]
+members = [
+  "chain-config",
+  "chain-config/meta",
+  "chain-factory",
+  "chain-factory/meta",
+  "dcdt-safe",
+  "dcdt-safe/interactor",
+  "dcdt-safe/meta",
+  "fee-market",
+  "fee-market/meta",
+  "header-verifier",
+  "header-verifier/meta", 
+]

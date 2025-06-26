@@ -1,0 +1,17 @@
+[package]
+name = "chain-factory-meta"
+version = "0.0.0"
+edition = "2018"
+publish = false
+authors = ["contact@dharitri.org"]
+
+[dev-dependencies]
+
+[dependencies.chain-factory]
+path = ".."
+
+[dependencies.dharitri-sc-meta-lib]      
+version = "=1.15.0"
+
+# [dependencies.dharitri-sc-meta-lib]
+# path = "/home/dugong/Documents/my_works-main/rs-sdks/drt-rs-sdk-0.54.0/framework/meta-lib"

@@ -1,0 +1,33 @@
+[package]
+name = "fee-market"
+version = "0.0.0"
+authors = ["contact@dharitri.org"]
+edition = "2021"
+publish = false
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies.utils]
+path = "../common/utils"
+
+[dependencies.transaction]
+path = "../common/transaction"
+
+[dependencies.bls-signature]
+path = "../common/bls-signature"
+
+[dependencies.dharitri-sc]      
+version = "=1.15.0"
+
+# [dependencies.dharitri-sc]
+# path = "/home/dugong/Documents/my_works-main/rs-sdks/drt-rs-sdk-0.54.0/framework/base"
+
+[dev-dependencies]
+num-bigint = "0.4.2"
+
+[dev-dependencies.dharitri-sc-scenario]      
+version = "=1.15.0"
+
+# [dev-dependencies.dharitri-sc-scenario]
+# path = "/home/dugong/Documents/my_works-main/rs-sdks/drt-rs-sdk-0.54.0/framework/scenario"

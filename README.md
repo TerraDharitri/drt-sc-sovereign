@@ -1,1 +1,1 @@
-# drt-sc-sovereign
+Sovereign Bridge SCs

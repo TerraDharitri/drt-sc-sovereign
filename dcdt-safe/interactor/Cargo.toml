@@ -1,0 +1,51 @@
+[[bin]]
+name = "rust-interact"
+path = "src/interactor_main.rs"
+
+[package]
+name = "rust-interact"
+version = "0.0.0"
+authors = ["contact@dharitri.org"]
+edition = "2021"
+publish = false
+
+[dependencies]
+toml = "0.8.6"
+
+[dependencies.dcdt-safe]
+path = ".."
+
+[dependencies.transaction]
+path = "../../common/transaction"
+
+[dependencies.tx-batch-module]
+path = "../../common/tx-batch-module"
+
+[dependencies.fee-market]
+path = "../../fee-market"
+
+[dependencies.dharitri-sc-snippets]        
+version = "1.15.0"
+
+[dependencies.dharitri-sc]
+version = "1.15.0"
+
+[dependencies.dharitri-sc-scenario]
+version = "=1.15.0"
+
+# [dependencies.dharitri-sc-snippets]
+# path = "/home/dugong/Documents/my_works-main/rs-sdks/drt-rs-sdk-0.54.0/framework/snippets"
+
+# [dependencies.dharitri-sc]
+# path = "/home/dugong/Documents/my_works-main/rs-sdks/drt-rs-sdk-0.54.0/framework/base"
+
+# [dependencies.dharitri-sc-scenario]
+# path = "/home/dugong/Documents/my_works-main/rs-sdks/drt-rs-sdk-0.54.0/framework/scenario"
+
+[dependencies.clap]
+version = "4.4.7"
+features = ["derive"]
+
+[dependencies.serde]
+version = "1.0"
+features = ["derive"]

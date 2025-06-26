@@ -1,0 +1,19 @@
+[package]
+name = "utils"
+version = "0.0.0"
+authors = ["contact@dharitri.org"]
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies.bls-signature]
+path = "../bls-signature"
+
+[dependencies.dharitri-sc]        
+version = "=1.15.0"
+features = ["dcdt-token-payment-legacy-decode"]
+
+# [dependencies.dharitri-sc]
+# path = "/home/dugong/Documents/my_works-main/rs-sdks/drt-rs-sdk-0.54.0/framework/base"
+# features = ["dcdt-token-payment-legacy-decode"]

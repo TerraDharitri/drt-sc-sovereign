@@ -1,0 +1,23 @@
+[settings]
+main = "main"
+
+[contracts.main]
+name = "dcdt-safe"
+
+[contracts.full]
+name = "dcdt-safe-full"
+add-unlabelled = true
+add-labels = ["dcdt-safe-external-view"]
+
+[contracts.view]
+name = "dcdt-safe-view"
+external-view = true
+add-unlabelled = false
+add-labels = ["dcdt-safe-external-view"]
+
+[[proxy]]
+path = "src/dcdt_safe_proxy.rs"
+
+[[proxy]]
+path = "interactor/src/proxy.rs"
+ 

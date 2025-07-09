@@ -1,0 +1,17 @@
+[contracts.main]
+name = "drt-dcdt-safe"
+
+[contracts.full]
+name = "drt-dcdt-safe-full"
+add-unlabelled = true
+add-labels = ["drt-dcdt-safe-external-view"]
+
+[contracts.view]
+name = "drt-dcdt-safe-view"
+external-view = true
+add-unlabelled = false
+add-labels = ["drt-dcdt-safe-external-view"]
+
+[[proxy]]
+path = "../common/proxies/src/drt_dcdt_safe_proxy.rs"
+

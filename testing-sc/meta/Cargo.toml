@@ -1,0 +1,12 @@
+[package]
+name = "testing-sc-meta"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies.testing-sc]
+path = ".."
+
+[dependencies.dharitri-sc-meta-lib]
+version = "=1.19.0"
+default-features = false

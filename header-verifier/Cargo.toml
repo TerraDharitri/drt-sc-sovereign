@@ -1,6 +1,6 @@
 [package]
 name = "header-verifier"
-version = "0.0.0"
+version = "0.1.0"
 authors = ["contact@dharitri.org"]
 edition = "2021"
 publish = false
@@ -8,23 +8,23 @@ publish = false
 [lib]
 path = "src/lib.rs"
 
-[dependencies.dharitri-sc]     
-version = "1.15.0"
+[dependencies.dharitri-sc]
+version = "1.19.0"
 
-# [dependencies.dharitri-sc]
-# path = "/home/dugong/Documents/my_works-main/rs-sdks/drt-rs-sdk-0.54.0/framework/base"
+[dependencies.structs]
+path = "../common/structs"
 
-[dependencies.bls-signature]
-path = "../common/bls-signature"
+[dependencies.proxies]
+path = "../common/proxies"
 
-[dependencies.transaction]
-path = "../common/transaction"
+[dependencies.error-messages]
+path = "../common/error-messages"
 
-[dev-dependencies]
-num-bigint = "0.4.2"
+[dependencies.cross-chain]
+path = "../common/cross-chain"
 
-[dev-dependencies.dharitri-sc-scenario]     
-version = "1.15.0"
+[dev-dependencies.common-test-setup]
+path = "../common/common-test-setup"
 
-# [dev-dependencies.dharitri-sc-scenario]
-# path = "/home/dugong/Documents/my_works-main/rs-sdks/drt-rs-sdk-0.54.0/framework/scenario"
+[dev-dependencies.dharitri-sc-scenario]
+version = "1.19.0"

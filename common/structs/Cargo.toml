@@ -1,0 +1,11 @@
+[package]
+name = "structs"
+version = "0.1.0"
+authors = ["contact@dharitri.org"]
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies.dharitri-sc]
+version = "=1.19.0"

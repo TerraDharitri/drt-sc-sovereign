@@ -1,0 +1,26 @@
+[package]
+name = "cross-chain"
+version = "0.1.0"
+authors = ["contact@dharitri.org"]
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies.dharitri-sc]
+version = "=1.19.0"
+
+[dependencies.dharitri-sc-modules]
+version = "=1.19.0"
+
+[dependencies.structs]
+path = "../structs"
+
+[dependencies.proxies]
+path = "../proxies"
+
+[dependencies.utils]
+path = "../utils"
+
+[dependencies.error-messages]
+path = "../error-messages"

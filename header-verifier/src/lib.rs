@@ -1,9 +1,12 @@
 #![no_std]
 
-use bls_signature::BlsSignature;
+use error_messages::{
+    BLS_SIGNATURE_NOT_VALID, CURRENT_OPERATION_ALREADY_IN_EXECUTION,
+    CURRENT_OPERATION_NOT_REGISTERED, HASH_OF_HASHES_DOES_NOT_MATCH, NO_DCDT_SAFE_ADDRESS,
+    ONLY_DCDT_SAFE_CALLER, OUTGOING_TX_HASH_ALREADY_REGISTERED,
+};
 use dharitri_sc::codec;
 use dharitri_sc::proxy_imports::{TopDecode, TopEncode};
-pub mod header_verifier_proxy;
 
 dharitri_sc::imports!();
 
@@ -14,12 +17,15 @@ pub enum OperationHashStatus {
 }
 
 #[dharitri_sc::contract]
-pub trait Headerverifier: bls_signature::BlsSignatureModule {
+pub trait Headerverifier: cross_chain::events::EventsModule {
     #[init]
-    fn init(&self, bls_pub_keys: MultiValueEncoded<ManagedBuffer>) {
-        for pub_key in bls_pub_keys {
-            self.bls_pub_keys().insert(pub_key);
-        }
+    fn init(&self) {}
+
+    #[only_owner]
+    #[endpoint(registerBlsPubKeys)]
+    fn register_bls_pub_keys(&self, bls_pub_keys: MultiValueEncoded<ManagedBuffer>) {
+        self.bls_pub_keys().clear();
+        self.bls_pub_keys().extend(bls_pub_keys);
     }
 
     #[upgrade]
@@ -28,19 +34,21 @@ pub trait Headerverifier: bls_signature::BlsSignatureModule {
     #[endpoint(registerBridgeOps)]
     fn register_bridge_operations(
         &self,
-        signature: BlsSignature<Self::Api>,
+        signature: ManagedBuffer,
         bridge_operations_hash: ManagedBuffer,
+        _pub_keys_bitmap: ManagedBuffer,
+        _epoch: ManagedBuffer,
         operations_hashes: MultiValueEncoded<ManagedBuffer>,
     ) {
         let mut hash_of_hashes_history_mapper = self.hash_of_hashes_history();
 
         require!(
             !hash_of_hashes_history_mapper.contains(&bridge_operations_hash),
-            "The OutGoingTxsHash has already been registered"
+            OUTGOING_TX_HASH_ALREADY_REGISTERED
         );
 
         let is_bls_valid = self.verify_bls(&signature, &bridge_operations_hash);
-        require!(is_bls_valid, "BLS signature is not valid");
+        require!(is_bls_valid, BLS_SIGNATURE_NOT_VALID);
 
         self.calculate_and_check_transfers_hashes(
             &bridge_operations_hash,
@@ -53,6 +61,39 @@ pub trait Headerverifier: bls_signature::BlsSignatureModule {
         }
 
         hash_of_hashes_history_mapper.insert(bridge_operations_hash);
+    }
+
+    #[endpoint(changeValidatorSet)]
+    fn change_validator_set(
+        &self,
+        signature: ManagedBuffer,
+        bridge_operations_hash: ManagedBuffer,
+        operation_hash: ManagedBuffer,
+        _pub_keys_bitmap: ManagedBuffer,
+        _epoch: ManagedBuffer,
+        _pub_keys_id: MultiValueEncoded<ManagedBuffer>,
+    ) {
+        let mut hash_of_hashes_history_mapper = self.hash_of_hashes_history();
+
+        require!(
+            !hash_of_hashes_history_mapper.contains(&bridge_operations_hash),
+            OUTGOING_TX_HASH_ALREADY_REGISTERED
+        );
+
+        let is_bls_valid = self.verify_bls(&signature, &bridge_operations_hash);
+        require!(is_bls_valid, BLS_SIGNATURE_NOT_VALID);
+
+        let mut operations_hashes = MultiValueEncoded::new();
+        operations_hashes.push(operation_hash.clone());
+        self.calculate_and_check_transfers_hashes(
+            &bridge_operations_hash,
+            operations_hashes.clone(),
+        );
+
+        // TODO change validators set
+
+        hash_of_hashes_history_mapper.insert(bridge_operations_hash.clone());
+        self.execute_bridge_operation_event(&bridge_operations_hash, &operation_hash);
     }
 
     #[only_owner]
@@ -78,7 +119,7 @@ pub trait Headerverifier: bls_signature::BlsSignatureModule {
 
         require!(
             !operation_hash_status_mapper.is_empty(),
-            "The current operation is not registered"
+            CURRENT_OPERATION_NOT_REGISTERED
         );
 
         let is_hash_in_execution = operation_hash_status_mapper.get();
@@ -87,7 +128,7 @@ pub trait Headerverifier: bls_signature::BlsSignatureModule {
                 operation_hash_status_mapper.set(OperationHashStatus::Locked)
             }
             OperationHashStatus::Locked => {
-                sc_panic!("The current operation is already in execution")
+                sc_panic!(CURRENT_OPERATION_ALREADY_IN_EXECUTION)
             }
         }
     }
@@ -95,16 +136,10 @@ pub trait Headerverifier: bls_signature::BlsSignatureModule {
     fn require_caller_dcdt_safe(&self) {
         let dcdt_safe_mapper = self.dcdt_safe_address();
 
-        require!(
-            !dcdt_safe_mapper.is_empty(),
-            "There is no registered DCDT address"
-        );
+        require!(!dcdt_safe_mapper.is_empty(), NO_DCDT_SAFE_ADDRESS);
 
         let caller = self.blockchain().get_caller();
-        require!(
-            caller == dcdt_safe_mapper.get(),
-            "Only DCDT Safe contract can call this endpoint"
-        );
+        require!(caller == dcdt_safe_mapper.get(), ONLY_DCDT_SAFE_CALLER);
     }
 
     fn calculate_and_check_transfers_hashes(
@@ -122,14 +157,14 @@ pub trait Headerverifier: bls_signature::BlsSignatureModule {
 
         require!(
             transfers_hash.eq(hash_of_hashes),
-            "Hash of all operations doesn't match the hash of transfer data"
+            HASH_OF_HASHES_DOES_NOT_MATCH
         );
     }
 
     // TODO
     fn verify_bls(
         &self,
-        _signature: &BlsSignature<Self::Api>,
+        _signature: &ManagedBuffer,
         _bridge_operations_hash: &ManagedBuffer,
     ) -> bool {
         true

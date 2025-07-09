@@ -1,0 +1,45 @@
+[package]
+name = "sov-dcdt-safe"
+version = "0.1.0"
+edition = "2021"
+publish = false
+authors = ["contact@dharitri.org"]
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies.dharitri-sc]
+version = "1.19.0"
+
+[dependencies.dharitri-sc-modules]
+version = "=1.19.0"
+
+[dependencies.testing-sc]
+path = "../testing-sc"
+
+[dependencies.utils]
+path = "../common/utils"
+
+[dependencies.fee-market]
+path = "../fee-market"
+
+[dependencies.structs]
+path = "../common/structs"
+
+[dependencies.cross-chain]
+path = "../common/cross-chain"
+
+[dependencies.setup-phase]
+path = "../common/setup-phase"
+
+[dependencies.proxies]
+path = "../common/proxies"
+
+[dependencies.error-messages]
+path = "../common/error-messages"
+
+[dev-dependencies.common-test-setup]
+path = "../common/common-test-setup"
+
+[dev-dependencies.dharitri-sc-scenario]
+version = "1.19.0"

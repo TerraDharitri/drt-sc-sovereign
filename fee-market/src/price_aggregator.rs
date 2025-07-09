@@ -1,3 +1,5 @@
+use error_messages::INVALID_DCDT_IDENTIFIER;
+
 dharitri_sc::imports!();
 
 pub type AggregatorOutputType<M> =
@@ -72,10 +74,7 @@ pub trait PriceAggregatorModule {
     }
 
     fn get_token_ticker(&self, token_id: &TokenIdentifier) -> ManagedBuffer {
-        require!(
-            token_id.is_valid_dcdt_identifier(),
-            "Invalid DCDT identifier"
-        );
+        require!(token_id.is_valid_dcdt_identifier(), INVALID_DCDT_IDENTIFIER);
 
         let buffer = token_id.as_managed_buffer();
         let ticker = buffer.copy_slice(0, buffer.len() - DASH_TICKER_LEN);

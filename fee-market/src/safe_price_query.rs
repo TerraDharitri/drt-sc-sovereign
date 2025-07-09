@@ -1,3 +1,5 @@
+use error_messages::{INVALID_TOKEN_USDC_PAIR_ADDRESS, INVALID_WREWA_USDC_PAIR_ADDRESS};
+
 use crate::price_aggregator;
 
 dharitri_sc::imports!();
@@ -61,7 +63,7 @@ pub trait SafePriceQueryModule: price_aggregator::PriceAggregatorModule {
             let wrewa_to_usdc_pair = self.call_get_pair(&wrewa_token_id, &usdc_token_id);
             require!(
                 !wrewa_to_usdc_pair.is_zero(),
-                "Invalid WREWA-USDC pair address from router"
+                INVALID_WREWA_USDC_PAIR_ADDRESS
             );
 
             return PairQueryResponse::WrewaIntermediary {
@@ -74,7 +76,7 @@ pub trait SafePriceQueryModule: price_aggregator::PriceAggregatorModule {
 
         require!(
             !token_to_usdc_pair.is_zero(),
-            "Invalid TOKEN-USDC pair address from router"
+            INVALID_TOKEN_USDC_PAIR_ADDRESS
         );
 
         PairQueryResponse::TokenToUsdc(token_to_usdc_pair)

@@ -1,16 +1,12 @@
 [package]
 name = "header-verifier-meta"
-version = "0.0.0"
+version = "0.1.0"
 edition = "2021"
 publish = false
 
 [dependencies.header-verifier]
 path = ".."
 
-[dependencies.dharitri-sc-meta-lib] 
-version = "=1.15.0"
+[dependencies.dharitri-sc-meta-lib]
+version = "1.19.0"
 default-features = false
-
-# [dependencies.dharitri-sc-meta-lib]
-# path = "/home/dugong/Documents/my_works-main/rs-sdks/drt-rs-sdk-0.54.0/framework/meta-lib"
-# default-features = false

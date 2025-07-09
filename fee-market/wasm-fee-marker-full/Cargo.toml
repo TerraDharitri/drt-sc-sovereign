@@ -27,11 +27,8 @@ panic = "abort"
 [dependencies.fee-market]
 path = ".."
 
-[dependencies.dharitri-sc-wasm-adapter]     
-version = "=1.15.0"
-
-# [dependencies.dharitri-sc-wasm-adapter]
-# path = "/home/dugong/Documents/my_works-main/rs-sdks/drt-rs-sdk-0.54.0/framework/wasm-adapter"
+[dependencies.dharitri-sc-wasm-adapter]
+version = "=1.19.0"
 
 [workspace]
 members = ["."]

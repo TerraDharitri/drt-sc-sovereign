@@ -1,0 +1,16 @@
+[contracts.main]
+name = "sov-dcdt-safe"
+
+[contracts.full]
+name = "sov-dcdt-safe-full"
+add-unlabelled = true
+add-labels = ["sov-dcdt-safe-external-view"]
+
+[contracts.view]
+name = "sov-dcdt-safe-view"
+external-view = true
+add-unlabelled = false
+add-labels = ["sov-dcdt-safe-external-view"]
+
+[[proxy]]
+path = "../common/proxies/src/sov_dcdt_safe_proxy.rs"
